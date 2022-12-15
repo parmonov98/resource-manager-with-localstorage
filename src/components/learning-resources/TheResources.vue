@@ -12,9 +12,12 @@
 
 import StoredResources from "./StoredResources.vue";
 import AddResource from "./AddResource.vue";
+import { computed } from "@vue/reactivity";
+// import { computed } from 'vue';
 
 export default {
   components: { StoredResources, AddResource },
+  unwrapInjectedRed: true,
   computed: {
     storedResourceMode: function () {
       return this.selectedTab == 'stored-resources' ? null : 'flat'
@@ -48,32 +51,33 @@ export default {
   },
   provide() {
     return {
-      resources: this.storedResources,
+      resources: computed(() => this.storedResources),
       addResource: this.addResource,
       deleteResource: this.deleteResource,
     }
   },
+  // watch: {
+  //   storedResources(new_data, old_data) {
+  //     console.log(new_data, old_data);
+  //     this.storedResources = new_data;
+  //     localStorage.setItem('resources', JSON.stringify(new_data));
+  //   }
+  // },
   methods: {
     setSelectedTab(name) {
       this.selectedTab = name;
     },
     addResource(title, description, link) {
-      this.storedResources.push({
+      this.storedResources.unshift({
         id: (new Date).toISOString(),
         title, description, link
       });
-      const items = [...this.storedResources];
-      console.log(items);
-      localStorage.setItem('resources', JSON.stringify(items));
-
       this.setSelectedTab('stored-resources');
       console.log('added', this.storedResources.length);
     },
     deleteResource(id) {
-      console.log(id);
       const deleteIndex = this.storedResources.findIndex(item => item.id === id);
       this.storedResources.splice(deleteIndex, 1);
-      localStorage.setItem('resources', JSON.stringify(this.storedResources));
     }
   }
 

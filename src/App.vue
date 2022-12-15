@@ -7,6 +7,7 @@
 import TheResources from "./components/learning-resources/TheResources.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
 export default {
+  unwrapInjectedRef: true,
   components: {
     TheHeader,
     TheResources,

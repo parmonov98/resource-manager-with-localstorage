@@ -18,12 +18,7 @@
 
       <div class="form-control">
         <label for="description">Description</label>
-        <textarea
-          type="text"
-          name="description"
-          id="description"
-          ref="descriptionRef"
-        ></textarea>
+        <textarea type="text" name="description" id="description" ref="descriptionRef"></textarea>
       </div>
 
       <div class="form-control">
@@ -59,9 +54,12 @@ export default {
         this.inputIsInvalid = true;
         return;
       }
+      this.$refs.titleRef.value = '';
+      this.$refs.descriptionRef.value = '';
+      this.$refs.linkRef.value = '';
       this.addResource(enteredTitle, enteredDescription, enteredLink);
     },
-    confirmError(){
+    confirmError() {
       this.inputIsInvalid = false;
     }
   }
